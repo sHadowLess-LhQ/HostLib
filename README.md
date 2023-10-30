@@ -12,6 +12,22 @@ HostLib
 
 （太菜了，不会写基于7.0.2的AGP插件）
 
+Step 2. 添加依赖
+
+a、克隆引入
+
+直接下载源码引入model
+
+b、远程仓库引入
+
+[![](https://jitpack.io/v/com.gitee.shadowless_lhq/host-lib.svg)](https://jitpack.io/#com.gitee.shadowless_lhq/host-lib)
+
+```
+     dependencies {
+          implementation 'com.gitee.shadowless_lhq:host-lib:Tag'
+     }
+```
+
 ### 使用方法
 
 具体使用方法参照原项目使用方法：
