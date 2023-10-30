@@ -12,7 +12,32 @@
 
 （太菜了，不会写基于7.0.2的AGP插件）
 
-### 添加依赖
+### 安装教程
+
+Step 1. 添加maven仓库地址和配置
+
+```
+     //旧AndroidStudio版本
+     //build.gradle
+     allprojects {
+         repositories {
+            ...
+             maven { url 'https://jitpack.io' }
+         }
+     }
+     
+     //新AndroidStudio版本
+     //settings.gradle
+     dependencyResolutionManagement {
+          repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+          repositories {
+            ...
+             maven { url 'https://jitpack.io' }
+          }
+      }
+```
+
+Step 2. 添加依赖
 
 a、克隆引入
 
@@ -24,9 +49,12 @@ b、远程仓库引入
 
 ```
      dependencies {
-          implementation 'com.gitee.shadowless_lhq:host-lib:Tag'
+         implementation 'com.gitee.shadowless_lhq:host-lib:Tag'
+         implementation 'com.gitee.shadowless_lhq:common-lib:1.0.0'
      }
 ```
+
+#### 使用说明
 
 ### 使用方法
 
