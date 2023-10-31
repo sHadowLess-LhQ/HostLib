@@ -26,6 +26,7 @@ import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -127,9 +128,11 @@ public class ActivityHostProxy extends FragmentActivity implements Cloneable {
 
     // 含有fragment的标记
     static final String FRAGMENTS_TAG = "android:support:fragments";
+    static final String X_FRAGMENTS_TAG = "android:fragments";
     static final String NEXT_CANDIDATE_REQUEST_INDEX_TAG = "android:support:next_request_index";
     static final String ALLOCATED_REQUEST_INDICIES_TAG = "android:support:request_indicies";
     static final String REQUEST_FRAGMENT_WHO_TAG = "android:support:request_fragment_who";
+    static final String SAVED_COMPONENTS_KEY = "androidx.lifecycle.BundlableSavedStateRegistry.key";
 
     private PluginInterceptActivity mClientActivity;
     private DexClassLoader mClassLoader;
@@ -537,7 +540,7 @@ public class ActivityHostProxy extends FragmentActivity implements Cloneable {
 
     @Override
     public void startActivityFromFragment(@NonNull android.app.Fragment fragment, Intent intent, int requestCode,
-            @Nullable Bundle options) {
+                                          @Nullable Bundle options) {
         super.startActivityFromFragment(fragment, setPluginFlag(intent), requestCode, options);
     }
 
@@ -589,7 +592,7 @@ public class ActivityHostProxy extends FragmentActivity implements Cloneable {
 
     @Override
     public void startActivityFromChild(@NonNull Activity child, @RequiresPermission Intent intent, int requestCode,
-            @Nullable Bundle options) {
+                                       @Nullable Bundle options) {
         super.startActivityFromChild(child, setPluginFlag(intent), requestCode, options);
     }
 
@@ -600,7 +603,7 @@ public class ActivityHostProxy extends FragmentActivity implements Cloneable {
 
     @Override
     public boolean startActivityIfNeeded(@RequiresPermission @NonNull Intent intent, int requestCode,
-            @Nullable Bundle options) {
+                                         @Nullable Bundle options) {
         return super.startActivityIfNeeded(setPluginFlag(intent), requestCode, options);
     }
 
@@ -628,6 +631,15 @@ public class ActivityHostProxy extends FragmentActivity implements Cloneable {
         removeFragmentState(outState);
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        Bundle saveData = new Bundle();
+        callTargetActivityMethod(ON_SAVE_INSTANCE_STATE, "onSaveInstanceState", saveData);
+        outState.putBundle(Constants.PLUGIN_SAVED_DATA, saveData);
+        removeFragmentState(outState);
+    }
+
     /**
      * 清除Fragment状态相关的key
      *
@@ -638,6 +650,11 @@ public class ActivityHostProxy extends FragmentActivity implements Cloneable {
         outState.remove(NEXT_CANDIDATE_REQUEST_INDEX_TAG);
         outState.remove(ALLOCATED_REQUEST_INDICIES_TAG);
         outState.remove(REQUEST_FRAGMENT_WHO_TAG);
+        Bundle bundle = outState.getBundle(SAVED_COMPONENTS_KEY);
+        if (bundle != null) {
+            bundle.remove(FRAGMENTS_TAG);
+            bundle.remove(X_FRAGMENTS_TAG);
+        }
     }
 
     @Override
@@ -754,8 +771,8 @@ public class ActivityHostProxy extends FragmentActivity implements Cloneable {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-            @NonNull String[] permissions,
-            @NonNull int[] grantResults) {
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         callTargetActivityMethod(ON_REQUEST_PERMISSIONS_RESULT, "onRequestPermissionsResult",
                 requestCode, permissions, grantResults);
