@@ -46,11 +46,12 @@ a、克隆引入
 b、远程仓库引入
 
 [![](https://jitpack.io/v/sHadowLess-LhQ/HostLib.svg)](https://jitpack.io/#sHadowLess-LhQ/HostLib)
+[![](https://jitpack.io/v/sHadowLess-LhQ/CommonLib.svg)](https://jitpack.io/#sHadowLess-LhQ/CommonLib)
 
 ```
      dependencies {
          implementation 'com.github.sHadowLess-LhQ:HostLib:Tag'
-         implementation 'com.github.sHadowLess-LhQ:CommonLib:1.0.0'
+         implementation 'com.github.sHadowLess-LhQ:CommonLib:Tag'
      }
 ```
 
