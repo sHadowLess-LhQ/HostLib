@@ -45,12 +45,12 @@ a、克隆引入
 
 b、远程仓库引入
 
-[![](https://jitpack.io/v/com.gitee.shadowless_lhq/host-lib.svg)](https://jitpack.io/#com.gitee.shadowless_lhq/host-lib)
+[![](https://jitpack.io/v/sHadowLess-LhQ/HostLib.svg)](https://jitpack.io/#sHadowLess-LhQ/HostLib)
 
 ```
      dependencies {
-         implementation 'com.gitee.shadowless_lhq:host-lib:Tag'
-         implementation 'com.gitee.shadowless_lhq:common-lib:1.0.0'
+         implementation 'com.github.sHadowLess-LhQ:HostLib:Tag'
+         implementation 'com.github.sHadowLess-LhQ:CommonLib:1.0.0'
      }
 ```
 
